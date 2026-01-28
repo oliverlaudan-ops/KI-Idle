@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KI-Idle - Train Your AI Empire</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header with Stats Bar -->
+        <header class="stats-bar">
+            <div class="game-title">
+                <h1>🤖 KI-Idle</h1>
+                <span class="subtitle">Machine Learning Incremental</span>
+            </div>
+            <div class="stats-display">
+                <div class="stat" id="stat-data">
+                    <span class="stat-icon">📊</span>
+                    <span class="stat-label">Training Data:</span>
+                    <span class="stat-value" id="data-amount">0</span>
+                    <span class="stat-rate" id="data-rate">(+0.0/s)</span>
+                </div>
+                <div class="stat" id="stat-compute">
+                    <span class="stat-icon">⚡</span>
+                    <span class="stat-label">Compute:</span>
+                    <span class="stat-value" id="compute-amount">0.0</span>
+                    <span class="stat-unit">TFLOPS</span>
+                </div>
+                <div class="stat" id="stat-accuracy">
+                    <span class="stat-icon">🎯</span>
+                    <span class="stat-label">Accuracy:</span>
+                    <span class="stat-value" id="accuracy-amount">0.00</span>
+                    <span class="stat-unit">%</span>
+                    <span class="stat-rate" id="accuracy-rate">(+0.0/s)</span>
+                </div>
+                <div class="stat" id="stat-research">
+                    <span class="stat-icon">🔬</span>
+                    <span class="stat-label">Research:</span>
+                    <span class="stat-value" id="research-amount">0</span>
+                    <span class="stat-unit">pts</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="infrastructure">🏗️ Infrastructure</button>
+            <button class="tab-btn" data-tab="training">🧠 Training</button>
+            <button class="tab-btn" data-tab="research">🔬 Research</button>
+            <button class="tab-btn" data-tab="deployment">🚀 Deployment</button>
+            <button class="tab-btn" data-tab="achievements">🏆 Achievements</button>
+            <button class="tab-btn" data-tab="statistics">📈 Statistics</button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Infrastructure Tab -->
+            <div class="tab-content active" id="tab-infrastructure">
+                <div class="tab-header">
+                    <h2>Infrastructure</h2>
+                    <p class="tab-description">Build data centers, compute clusters, and processing infrastructure</p>
+                </div>
+                <div class="building-categories">
+                    <div class="building-category">
+                        <h3>Tier 1: Foundation</h3>
+                        <div class="building-list" id="buildings-tier1"></div>
+                    </div>
+                    <div class="building-category">
+                        <h3>Tier 2: Acceleration</h3>
+                        <div class="building-list" id="buildings-tier2"></div>
+                    </div>
+                    <div class="building-category">
+                        <h3>Tier 3: Advanced</h3>
+                        <div class="building-list" id="buildings-tier3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Tab -->
+            <div class="tab-content" id="tab-training">
+                <div class="tab-header">
+                    <h2>Model Training</h2>
+                    <p class="tab-description">Train neural networks on various machine learning tasks</p>
+                </div>
+                <div class="training-status" id="current-training">
+                    <h3>Current Training</h3>
+                    <div class="no-training">No model currently training. Select a task below to begin.</div>
+                </div>
+                <div class="model-categories">
+                    <div class="model-category">
+                        <h3>Classification Tasks</h3>
+                        <div class="model-list" id="models-classification"></div>
+                    </div>
+                    <div class="model-category">
+                        <h3>Vision Tasks</h3>
+                        <div class="model-list" id="models-vision"></div>
+                    </div>
+                    <div class="model-category">
+                        <h3>Advanced Tasks</h3>
+                        <div class="model-list" id="models-advanced"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Tab -->
+            <div class="tab-content" id="tab-research">
+                <div class="tab-header">
+                    <h2>Research & Development</h2>
+                    <p class="tab-description">Unlock new algorithms, architectures, and optimization techniques</p>
+                </div>
+                <div class="research-categories">
+                    <div class="research-category">
+                        <h3>Optimization Algorithms</h3>
+                        <div class="research-list" id="research-optimizers"></div>
+                    </div>
+                    <div class="research-category">
+                        <h3>Activation Functions</h3>
+                        <div class="research-list" id="research-activations"></div>
+                    </div>
+                    <div class="research-category">
+                        <h3>Architectures</h3>
+                        <div class="research-list" id="research-architectures"></div>
+                    </div>
+                    <div class="research-category">
+                        <h3>Regularization</h3>
+                        <div class="research-list" id="research-regularization"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deployment Tab -->
+            <div class="tab-content" id="tab-deployment">
+                <div class="tab-header">
+                    <h2>Model Deployment</h2>
+                    <p class="tab-description">Deploy your trained models to gain permanent bonuses</p>
+                </div>
+                <div class="deployment-info">
+                    <div class="prestige-box">
+                        <h3>Next Deployment</h3>
+                        <p>Deploy your models when you reach 100% accuracy to start over with permanent bonuses.</p>
+                        <div class="prestige-rewards" id="deployment-preview">
+                            <p>Current deployment would grant:</p>
+                            <ul>
+                                <li><strong>0</strong> Deployment Tokens</li>
+                                <li>Unlock permanent upgrades in the token shop</li>
+                            </ul>
+                        </div>
+                        <button class="btn-deploy" id="btn-deploy" disabled>Deploy Model (Requires 100% Accuracy)</button>
+                    </div>
+                    <div class="token-shop">
+                        <h3>Deployment Token Shop</h3>
+                        <p>Tokens available: <span id="tokens-available">0</span></p>
+                        <div class="upgrade-list" id="deployment-upgrades"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Tab -->
+            <div class="tab-content" id="tab-achievements">
+                <div class="tab-header">
+                    <h2>Achievements</h2>
+                    <p class="tab-description">Track your milestones and unlock special rewards</p>
+                </div>
+                <div class="achievement-stats">
+                    <div class="stat-box">
+                        <span class="big-number" id="achievements-unlocked">0</span>
+                        <span class="stat-label">Unlocked</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="big-number" id="achievements-total">30</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                </div>
+                <div class="achievement-categories">
+                    <div class="achievement-category">
+                        <h3>Training Milestones</h3>
+                        <div class="achievement-list" id="achievements-training"></div>
+                    </div>
+                    <div class="achievement-category">
+                        <h3>Research Breakthroughs</h3>
+                        <div class="achievement-list" id="achievements-research"></div>
+                    </div>
+                    <div class="achievement-category">
+                        <h3>Infrastructure</h3>
+                        <div class="achievement-list" id="achievements-infrastructure"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Tab -->
+            <div class="tab-content" id="tab-statistics">
+                <div class="tab-header">
+                    <h2>Statistics & Analytics</h2>
+                    <p class="tab-description">Detailed performance metrics and progression data</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stats-section">
+                        <h3>Resources</h3>
+                        <table class="stats-table" id="stats-resources"></table>
+                    </div>
+                    <div class="stats-section">
+                        <h3>Infrastructure</h3>
+                        <table class="stats-table" id="stats-infrastructure"></table>
+                    </div>
+                    <div class="stats-section">
+                        <h3>Training Progress</h3>
+                        <table class="stats-table" id="stats-training"></table>
+                    </div>
+                    <div class="stats-section">
+                        <h3>Game Info</h3>
+                        <table class="stats-table" id="stats-game"></table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer with Controls -->
+        <footer class="game-footer">
+            <div class="footer-controls">
+                <button class="btn-secondary" id="btn-save">💾 Save Game</button>
+                <button class="btn-secondary" id="btn-export">📤 Export</button>
+                <button class="btn-secondary" id="btn-import">📥 Import</button>
+                <button class="btn-danger" id="btn-reset">🔄 Reset Game</button>
+            </div>
+            <div class="footer-info">
+                <span>Version 0.1-alpha</span>
+                <span>|</span>
+                <span>Last save: <span id="last-save-time">Never</span></span>
+                <span>|</span>
+                <span>Playtime: <span id="playtime">0s</span></span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
