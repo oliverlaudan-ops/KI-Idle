@@ -56,6 +56,7 @@ function showExportModal(saveString) {
     const textarea = document.getElementById('save-string');
     const actionBtn = document.getElementById('modal-action-btn');
     const downloadBtn = document.getElementById('modal-download-btn');
+    const uploadBtn = document.getElementById('modal-upload-btn');
     
     title.textContent = '📤 Export Save';
     description.textContent = 'Copy this save string to backup your progress:';
@@ -64,6 +65,7 @@ function showExportModal(saveString) {
     actionBtn.textContent = '📋 Copy to Clipboard';
     actionBtn.className = 'btn-primary';
     downloadBtn.style.display = ''; // Show in export mode
+    uploadBtn.style.display = 'none'; // Hide in export mode
     
     // Select all text when modal opens
     setTimeout(() => textarea.select(), 100);
@@ -107,15 +109,18 @@ function showImportModal(game) {
     const textarea = document.getElementById('save-string');
     const actionBtn = document.getElementById('modal-action-btn');
     const downloadBtn = document.getElementById('modal-download-btn');
+    const uploadBtn = document.getElementById('modal-upload-btn');
+    const fileInput = document.getElementById('file-input');
     
     title.textContent = '📥 Import Save';
-    description.textContent = 'Paste your save string below:';
+    description.textContent = 'Paste your save string or load from file:';
     textarea.value = '';
     textarea.readOnly = false;
     textarea.placeholder = 'Paste your save string here...';
     actionBtn.textContent = '📥 Import Save';
     actionBtn.className = 'btn-primary';
     downloadBtn.style.display = 'none'; // Hide in import mode
+    uploadBtn.style.display = ''; // Show in import mode
     
     // Focus textarea when modal opens
     setTimeout(() => textarea.focus(), 100);
@@ -136,6 +141,32 @@ function showImportModal(game) {
         } else {
             showToast('Failed to import save! Invalid save string.', 'error');
         }
+    };
+    
+    // Upload button handler - triggers file input
+    uploadBtn.onclick = () => {
+        fileInput.click();
+    };
+    
+    // File input change handler
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const saveString = event.target.result.trim();
+            textarea.value = saveString;
+            showToast('File loaded! Click "Import Save" to continue.', 'success');
+            
+            // Reset file input
+            fileInput.value = '';
+        };
+        reader.onerror = () => {
+            showToast('Failed to read file!', 'error');
+            fileInput.value = '';
+        };
+        reader.readAsText(file);
     };
     
     modal.classList.add('active');

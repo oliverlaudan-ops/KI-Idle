@@ -250,11 +250,15 @@
                 <div class="modal-actions">
                     <button class="btn-primary" id="modal-action-btn">Copy to Clipboard</button>
                     <button class="btn-secondary" id="modal-download-btn">💾 Download as File</button>
+                    <button class="btn-secondary" id="modal-upload-btn">📁 Choose File</button>
                     <button class="btn-secondary" id="modal-cancel-btn">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Hidden file input for upload -->
+    <input type="file" id="file-input" accept=".txt" style="display: none;">
 
     <!-- Scripts -->
     <script type="module" src="src/main.js"></script>
