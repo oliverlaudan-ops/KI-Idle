@@ -237,6 +237,24 @@
     <!-- Toast Notifications -->
     <div class="toast-container" id="toast-container"></div>
 
+    <!-- Import/Export Modal -->
+    <div class="modal" id="save-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Export Save</h2>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-description">Copy this save string to backup your progress:</p>
+                <textarea id="save-string" class="save-textarea" readonly></textarea>
+                <div class="modal-actions">
+                    <button class="btn-primary" id="modal-action-btn">Copy to Clipboard</button>
+                    <button class="btn-secondary" id="modal-cancel-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script type="module" src="src/main.js"></script>
 </body>
