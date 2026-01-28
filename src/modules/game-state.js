@@ -31,7 +31,8 @@ export class GameState {
             completedResearch: [],
             deployments: 0,
             startTime: Date.now(),
-            totalPlaytime: 0
+            totalPlaytime: 0,
+            lastPlaytimeUpdate: Date.now()
         };
         
         this.settings = {
@@ -252,6 +253,12 @@ export class GameState {
     
     // Game Loop Update
     update(deltaTime) {
+        // Update playtime
+        const now = Date.now();
+        const playtimeDelta = now - this.stats.lastPlaytimeUpdate;
+        this.stats.totalPlaytime += playtimeDelta;
+        this.stats.lastPlaytimeUpdate = now;
+        
         // Add resources from production
         for (const [resourceId, resource] of Object.entries(this.resources)) {
             if (resource.perSecond > 0) {
@@ -281,6 +288,9 @@ export class GameState {
     processOfflineProgress(offlineTime) {
         const maxOfflineTime = 24 * 60 * 60 * 1000; // 24 hours
         const actualTime = Math.min(offlineTime, maxOfflineTime) / 1000; // Convert to seconds
+        
+        // Update playtime
+        this.stats.totalPlaytime += Math.min(offlineTime, maxOfflineTime);
         
         // Apply offline production
         for (const [resourceId, resource] of Object.entries(this.resources)) {
@@ -313,35 +323,26 @@ export class GameState {
     
     load(saveData) {
         try {
-            // Calculate offline progress
-            if (this.settings.offlineProgress && saveData.timestamp) {
-                const offlineTime = Date.now() - saveData.timestamp;
-                
-                // Restore state first
-                this.resources = saveData.resources;
-                this.buildings = saveData.buildings;
-                this.models = saveData.models;
-                this.research = saveData.research;
-                this.achievements = saveData.achievements;
-                this.prestige = saveData.prestige;
-                this.currentTraining = saveData.currentTraining;
-                this.trainingProgress = saveData.trainingProgress;
-                this.stats = saveData.stats;
-                this.settings = saveData.settings;
-                
-                this.recalculateProduction();
-                
-                // Apply offline progress
-                if (offlineTime > 1000) {
-                    this.processOfflineProgress(offlineTime);
-                }
-            } else {
-                // Just restore without offline progress
-                Object.assign(this, saveData);
-                this.recalculateProduction();
+            // Restore state
+            this.resources = saveData.resources;
+            this.buildings = saveData.buildings;
+            this.models = saveData.models;
+            this.research = saveData.research;
+            this.achievements = saveData.achievements;
+            this.prestige = saveData.prestige;
+            this.currentTraining = saveData.currentTraining;
+            this.trainingProgress = saveData.trainingProgress;
+            this.stats = saveData.stats;
+            this.settings = saveData.settings;
+            
+            // Ensure lastPlaytimeUpdate is set
+            if (!this.stats.lastPlaytimeUpdate) {
+                this.stats.lastPlaytimeUpdate = Date.now();
             }
             
+            this.recalculateProduction();
             this.lastSaveTime = saveData.timestamp || Date.now();
+            
             return true;
         } catch (e) {
             console.error('Failed to load save:', e);
