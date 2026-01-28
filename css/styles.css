@@ -167,6 +167,7 @@ body {
     padding: 2rem;
     margin-bottom: 2rem;
     text-align: center;
+    position: relative;
 }
 
 .btn-collect {
@@ -183,6 +184,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
+    position: relative;
 }
 
 .btn-collect:hover {
@@ -210,6 +212,35 @@ body {
     margin-top: 1rem;
     color: var(--text-secondary);
     font-size: 0.95rem;
+}
+
+/* Floating Text Animation */
+.floating-text {
+    position: fixed;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+    pointer-events: none;
+    z-index: 9999;
+    animation: floatUp 1s ease-out forwards;
+    text-shadow: 0 0 10px rgba(0, 255, 245, 0.8);
+}
+
+.floating-text.combo {
+    font-size: 2rem;
+    color: var(--accent-success);
+    text-shadow: 0 0 15px rgba(0, 255, 136, 1);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1.2);
+        opacity: 0;
+    }
 }
 
 /* Cards */
