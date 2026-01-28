@@ -13,31 +13,15 @@ export function initializeUI(game) {
         showToast('Game saved successfully!', 'success');
     });
     
-    // Export button
+    // Export button - show modal with save string
     document.getElementById('btn-export').addEventListener('click', () => {
         const saveString = game.export();
-        
-        // Copy to clipboard
-        navigator.clipboard.writeText(saveString).then(() => {
-            showToast('Save exported to clipboard!', 'success');
-        }).catch(() => {
-            // Fallback: show in prompt
-            prompt('Copy this save string:', saveString);
-        });
+        showExportModal(saveString);
     });
     
-    // Import button
+    // Import button - show modal for paste
     document.getElementById('btn-import').addEventListener('click', () => {
-        const saveString = prompt('Paste your save string:');
-        if (saveString) {
-            const success = game.import(saveString);
-            if (success) {
-                showToast('Save imported successfully!', 'success');
-                location.reload();
-            } else {
-                showToast('Failed to import save!', 'error');
-            }
-        }
+        showImportModal(game);
     });
     
     // Reset button
@@ -53,8 +37,119 @@ export function initializeUI(game) {
     });
     
     // Deployment button
-    document.getElementById('btn-deploy').addEventListener('click', () => {
-        // TODO: Implement deployment/prestige
-        showToast('Deployment system coming soon!', 'warning');
+    const deployBtn = document.getElementById('btn-deploy');
+    if (deployBtn) {
+        deployBtn.addEventListener('click', () => {
+            showToast('Deployment system coming soon!', 'warning');
+        });
+    }
+    
+    // Modal close handlers
+    setupModalHandlers();
+}
+
+// Show export modal
+function showExportModal(saveString) {
+    const modal = document.getElementById('save-modal');
+    const title = document.getElementById('modal-title');
+    const description = document.getElementById('modal-description');
+    const textarea = document.getElementById('save-string');
+    const actionBtn = document.getElementById('modal-action-btn');
+    
+    title.textContent = '📤 Export Save';
+    description.textContent = 'Copy this save string to backup your progress:';
+    textarea.value = saveString;
+    textarea.readOnly = true;
+    actionBtn.textContent = '📋 Copy to Clipboard';
+    actionBtn.className = 'btn-primary';
+    
+    // Select all text when modal opens
+    setTimeout(() => textarea.select(), 100);
+    
+    // Copy button handler
+    actionBtn.onclick = () => {
+        textarea.select();
+        navigator.clipboard.writeText(saveString).then(() => {
+            showToast('Save string copied to clipboard!', 'success');
+            actionBtn.textContent = '✓ Copied!';
+            setTimeout(() => {
+                actionBtn.textContent = '📋 Copy to Clipboard';
+            }, 2000);
+        }).catch(() => {
+            showToast('Failed to copy. Please copy manually.', 'warning');
+        });
+    };
+    
+    modal.classList.add('active');
+}
+
+// Show import modal
+function showImportModal(game) {
+    const modal = document.getElementById('save-modal');
+    const title = document.getElementById('modal-title');
+    const description = document.getElementById('modal-description');
+    const textarea = document.getElementById('save-string');
+    const actionBtn = document.getElementById('modal-action-btn');
+    
+    title.textContent = '📥 Import Save';
+    description.textContent = 'Paste your save string below:';
+    textarea.value = '';
+    textarea.readOnly = false;
+    textarea.placeholder = 'Paste your save string here...';
+    actionBtn.textContent = '📥 Import Save';
+    actionBtn.className = 'btn-primary';
+    
+    // Focus textarea when modal opens
+    setTimeout(() => textarea.focus(), 100);
+    
+    // Import button handler
+    actionBtn.onclick = () => {
+        const saveString = textarea.value.trim();
+        if (!saveString) {
+            showToast('Please paste a save string first!', 'warning');
+            return;
+        }
+        
+        const success = game.import(saveString);
+        if (success) {
+            showToast('Save imported successfully!', 'success');
+            modal.classList.remove('active');
+            location.reload();
+        } else {
+            showToast('Failed to import save! Invalid save string.', 'error');
+        }
+    };
+    
+    modal.classList.add('active');
+}
+
+// Setup modal event handlers
+function setupModalHandlers() {
+    const modal = document.getElementById('save-modal');
+    const closeBtn = document.getElementById('modal-close');
+    const cancelBtn = document.getElementById('modal-cancel-btn');
+    
+    // Close button
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+    
+    // Cancel button
+    cancelBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+    
+    // Click outside modal to close
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+    
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+        }
     });
 }
