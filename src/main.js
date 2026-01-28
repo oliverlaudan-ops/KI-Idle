@@ -14,14 +14,14 @@ const MAX_OFFLINE_TIME = 24 * 60 * 60 * 1000; // Max 24 hours offline progressio
 
 // Initialize the game
 function init() {
-    console.log('🤖 KI-Idle starting...');
+    console.log('🤖 AI-Idle starting...');
     
     try {
         // Create game state
         game = new GameState();
         
         // Try to load saved game
-        const savedGame = localStorage.getItem('ki-idle-save');
+        const savedGame = localStorage.getItem('ai-idle-save');
         if (savedGame) {
             console.log('📂 Loading saved game...');
             try {
@@ -41,7 +41,7 @@ function init() {
             }
         } else {
             console.log('✨ Starting new game');
-            showToast('Welcome to KI-Idle! Click Data Collectors to begin.', 'success');
+            showToast('Welcome to AI-Idle! Click Data Collectors to begin.', 'success');
         }
         
         // Initialize UI
@@ -56,14 +56,14 @@ function init() {
         console.log('▶️ Starting game loop...');
         requestAnimationFrame(gameLoop);
         
-        console.log('✅ KI-Idle initialized successfully!');
+        console.log('✅ AI-Idle initialized successfully!');
         
     } catch (error) {
         console.error('💥 Critical error during initialization:', error);
         document.body.innerHTML = `
             <div style="color: white; text-align: center; padding: 50px; font-family: monospace;">
                 <h1>❌ Initialization Error</h1>
-                <p>Failed to start KI-Idle. Check console for details.</p>
+                <p>Failed to start AI-Idle. Check console for details.</p>
                 <pre style="text-align: left; max-width: 800px; margin: 20px auto; background: #1a1a1a; padding: 20px; border-radius: 10px;">${error.stack}</pre>
                 <button onclick="location.reload()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Reload Page</button>
             </div>
@@ -100,7 +100,7 @@ function gameLoop() {
 function saveGame() {
     try {
         const saveData = game.save();
-        localStorage.setItem('ki-idle-save', JSON.stringify(saveData));
+        localStorage.setItem('ai-idle-save', JSON.stringify(saveData));
         
         // Update last save time display
         const lastSaveElement = document.getElementById('last-save-time');
@@ -131,7 +131,7 @@ window.exportSave = function() {
         
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ki-idle-save-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `ai-idle-save-${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         
         URL.revokeObjectURL(url);
@@ -188,7 +188,7 @@ window.resetGame = function() {
         const doubleCheck = confirm('Really reset? This is your last chance!');
         if (doubleCheck) {
             console.log('🔄 Resetting game...');
-            localStorage.removeItem('ki-idle-save');
+            localStorage.removeItem('ai-idle-save');
             location.reload();
         }
     }
