@@ -2,6 +2,16 @@
 
 import { getBuildingCost } from '../modules/buildings.js';
 
+// Main render function that updates all UI elements
+export function renderAll(gameState) {
+    renderStatsBar(gameState);
+    renderBuildings(gameState);
+    renderModels(gameState);
+    renderResearch(gameState);
+    renderAchievements(gameState);
+    renderStatistics(gameState);
+}
+
 export function renderStatsBar(gameState) {
     // Data
     document.getElementById('data-amount').textContent = formatNumber(gameState.resources.data.amount);
