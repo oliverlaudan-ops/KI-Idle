@@ -1,4 +1,4 @@
-# 🤖 KI-Idle
+# 🤖 AI-Idle
 
 **An incremental idle game about Machine Learning and AI infrastructure**
 
@@ -6,7 +6,7 @@ Train neural networks, optimize algorithms, and scale your AI research facility 
 
 ## 🎮 Play Now
 
-🚧 **Coming Soon** - Game in active development
+🚀 **[Play AI-Idle](https://ai-idle.future-pulse.tech)**
 
 ## 🌟 Features
 
@@ -47,7 +47,7 @@ Train neural networks, optimize algorithms, and scale your AI research facility 
 ## 📁 Project Structure
 
 ```
-KI-Idle/
+AI-Idle/
 ├── index.html              # Main game page
 ├── css/
 │   └── styles.css          # Game styling
@@ -135,28 +135,27 @@ Tooltips and explanations help you understand what each upgrade means in the rea
 ### Version 0.1 (MVP) - In Progress
 - [x] Game design document
 - [x] README and documentation
-- [ ] Basic resource system (data, compute, accuracy)
-- [ ] Infrastructure buildings (Tier 1)
-- [ ] First training model (digit recognition)
-- [ ] Simple research tree
-- [ ] UI and rendering
+- [x] Basic resource system (data, compute, accuracy)
+- [x] Infrastructure buildings (Tier 1-3)
+- [x] Training models (8 different tasks)
+- [x] Research tree
+- [x] UI and rendering
+- [x] Game loop and save system
 
 ### Version 0.2 (Early Access)
-- [ ] Complete Tier 1-2 buildings
-- [ ] 5+ training models
-- [ ] Expanded research tree
-- [ ] Achievement system
-- [ ] Save/load functionality
-- [ ] Offline progression
+- [ ] Balance adjustments
+- [ ] Achievement system implementation
+- [ ] Visual training animations
+- [ ] Offline progression optimization
+- [ ] Bug fixes and polish
 
 ### Version 1.0 (Full Release)
-- [ ] All building tiers
 - [ ] Complete model progression
-- [ ] Full research tree
+- [ ] Full research tree implementation
 - [ ] Prestige/deployment system
-- [ ] Visual training animations
 - [ ] Statistics and analytics
 - [ ] Balanced progression curve
+- [ ] Mobile optimization
 
 ### Future Versions
 - [ ] Competitions and leaderboards
@@ -184,7 +183,8 @@ Inspired by:
 ## 📞 Contact
 
 - **GitHub**: [oliverlaudan-ops](https://github.com/oliverlaudan-ops)
-- **Project**: [KI-Idle Repository](https://github.com/oliverlaudan-ops/KI-Idle)
+- **Project**: [AI-Idle Repository](https://github.com/oliverlaudan-ops/AI-Idle)
+- **Play**: [ai-idle.future-pulse.tech](https://ai-idle.future-pulse.tech)
 
 ---
 

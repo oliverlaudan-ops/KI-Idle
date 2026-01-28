@@ -1,8 +1,8 @@
-# KI-Idle - Game Design Document
+# AI-Idle - Game Design Document
 
 ## Core Concept
 
-KI-Idle is an incremental game where players build and manage a Machine Learning research facility. Players train neural networks, optimize algorithms, and scale their AI infrastructure while learning real ML concepts through gameplay.
+AI-Idle is an incremental game where players build and manage a Machine Learning research facility. Players train neural networks, optimize algorithms, and scale their AI infrastructure while learning real ML concepts through gameplay.
 
 ## Game Loop
 
@@ -246,4 +246,5 @@ When players reach 100% accuracy on a task, they can **Deploy** their model:
 ---
 
 **Version:** 1.0  
-**Last Updated:** January 28, 2026
+**Last Updated:** January 28, 2026  
+**Game URL:** https://ai-idle.future-pulse.tech
