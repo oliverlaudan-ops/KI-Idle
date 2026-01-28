@@ -7,6 +7,17 @@ export function initializeUI(game) {
     // Initialize tabs
     initializeTabs();
     
+    // Manual collect button
+    document.getElementById('btn-collect').addEventListener('click', () => {
+        game.addResource('data', 1);
+        // Add visual feedback
+        const btn = document.getElementById('btn-collect');
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            btn.style.transform = '';
+        }, 100);
+    });
+    
     // Save button
     document.getElementById('btn-save').addEventListener('click', () => {
         game.save();

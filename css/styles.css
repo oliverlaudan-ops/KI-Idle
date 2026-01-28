@@ -159,6 +159,59 @@ body {
     font-size: 1rem;
 }
 
+/* Manual Collection Button */
+.manual-collection {
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent-primary);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.btn-collect {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-success));
+    border: none;
+    color: var(--bg-primary);
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 255, 245, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-collect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 245, 0.6);
+}
+
+.btn-collect:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 10px rgba(0, 255, 245, 0.4);
+}
+
+.collect-icon {
+    font-size: 1.5rem;
+}
+
+.collect-value {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.collect-hint {
+    margin-top: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
 /* Cards */
 .building-card,
 .model-card,
@@ -554,6 +607,11 @@ body {
     .tab-btn {
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+    }
+    
+    .btn-collect {
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
     }
     
     .toast-container {

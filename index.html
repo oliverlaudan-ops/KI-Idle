@@ -19,7 +19,7 @@
                 <div class="stat" id="stat-data">
                     <span class="stat-icon">📊</span>
                     <span class="stat-label">Training Data:</span>
-                    <span class="stat-value" id="data-amount">0</span>
+                    <span class="stat-value" id="data-amount">10</span>
                     <span class="stat-rate" id="data-rate">(+0.0/s)</span>
                 </div>
                 <div class="stat" id="stat-compute">
@@ -62,6 +62,17 @@
                     <h2>Infrastructure</h2>
                     <p class="tab-description">Build data centers, compute clusters, and processing infrastructure</p>
                 </div>
+                
+                <!-- Manual Collection Button -->
+                <div class="manual-collection">
+                    <button class="btn-collect" id="btn-collect">
+                        <span class="collect-icon">🔍</span>
+                        <span class="collect-text">Collect Data</span>
+                        <span class="collect-value">+1</span>
+                    </button>
+                    <p class="collect-hint">Click to manually gather training data!</p>
+                </div>
+                
                 <div class="building-categories">
                     <div class="building-category">
                         <h3>Tier 1: Foundation</h3>

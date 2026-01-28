@@ -5,7 +5,7 @@ export const resources = {
         id: 'data',
         name: 'Training Data',
         icon: '📊',
-        amount: 0,
+        amount: 10,
         perSecond: 0,
         unlocked: true,
         description: 'Essential datasets needed to train machine learning models'
