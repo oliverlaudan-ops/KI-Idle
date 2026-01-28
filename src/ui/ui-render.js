@@ -22,6 +22,7 @@ export function renderStatsBar(gameState) {
     
     // Compute
     document.getElementById('compute-amount').textContent = formatNumber(gameState.resources.compute.amount, 1);
+    document.getElementById('compute-rate').textContent = `(+${formatNumber(gameState.resources.compute.perSecond, 2)}/s)`;
     
     // Accuracy
     document.getElementById('accuracy-amount').textContent = formatNumber(gameState.resources.accuracy.amount, 2);
@@ -29,6 +30,7 @@ export function renderStatsBar(gameState) {
     
     // Research
     document.getElementById('research-amount').textContent = formatNumber(gameState.resources.research.amount);
+    document.getElementById('research-rate').textContent = `(+${formatNumber(gameState.resources.research.perSecond, 2)}/s)`;
 }
 
 export function renderBuildings(gameState) {
