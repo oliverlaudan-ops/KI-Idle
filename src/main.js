@@ -108,6 +108,12 @@ function gameLoop() {
     if (deltaTime >= TICK_INTERVAL / 1000) {
         window.game.update(deltaTime);
         lastTick = now;
+        
+        // Check for newly unlocked achievements and show notifications
+        const newAchievements = window.game.popNewlyUnlockedAchievements();
+        for (const { id, achievement } of newAchievements) {
+            showAchievementUnlock(achievement);
+        }
     }
     
     // Render updates (can be less frequent than game updates)
@@ -124,6 +130,44 @@ function gameLoop() {
     
     // Continue loop
     requestAnimationFrame(gameLoop);
+}
+
+// Show achievement unlock notification
+function showAchievementUnlock(achievement) {
+    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    
+    // Create special toast for achievements
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast achievement';
+    toast.innerHTML = `
+        <div class="achievement-toast">
+            <div class="achievement-toast-icon">${achievement.icon}</div>
+            <div class="achievement-toast-content">
+                <div class="achievement-toast-title">🏆 Achievement Unlocked!</div>
+                <div class="achievement-toast-name">${achievement.name}</div>
+                <div class="achievement-toast-reward">+${achievement.reward}</div>
+            </div>
+        </div>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Play sound if available
+    try {
+        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ0PVqzn77BdGAg+ltryxnMpBSh+zPLaizsIGGS57OihUBELTKXh8bllHAU2jtXzzn0uBSd7yvLekDcJGGe+7ueXRA0PU6nm8bllHQU4kdXzy34vBSh9y/LfkjgJGWm/7+aXRA8OU6vl8bplHgU4ktXzzn8wBSl+y/LgkzgKGWm/7+aXRQ8RUqrl8bplHgU4ktXzzoAwBil+y/LgkzkKGWnA7+aXRQ8RUqrl8bpmHgU4ktX0zoAwBil+y/LhlDoKGWnA7+aYRQ8RUqrl8bpmHgU4ktX0z4AwBil+y/Lhlj0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhlzwLGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4EwBil+y/LhmD0LGWnA7+aYRg8RUqrl8bpmHgU4ktX0z4E');
+        audio.volume = 0.3;
+        audio.play().catch(() => {}); // Ignore errors if audio fails
+    } catch (e) {
+        // Ignore audio errors
+    }
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000); // Show for 5 seconds (longer than normal toasts)
 }
 
 // Save game
@@ -276,7 +320,7 @@ if (document.readyState === 'loading') {
 
 console.log('📜 main.js loaded');
 
-// Add offline modal styles
+// Add styles
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideOut {
@@ -312,6 +356,58 @@ style.textContent = `
     
     .offline-gain-item:last-child {
         border-bottom: none;
+    }
+    
+    /* Achievement Toast Styles */
+    .toast.achievement {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: 2px solid #ffd700;
+        box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+        min-width: 350px;
+        padding: 0;
+    }
+    
+    .achievement-toast {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .achievement-toast-icon {
+        font-size: 3rem;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        animation: bounce 0.6s ease infinite alternate;
+    }
+    
+    @keyframes bounce {
+        from { transform: translateY(0); }
+        to { transform: translateY(-5px); }
+    }
+    
+    .achievement-toast-content {
+        flex: 1;
+    }
+    
+    .achievement-toast-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffd700;
+        margin-bottom: 0.25rem;
+    }
+    
+    .achievement-toast-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+    
+    .achievement-toast-reward {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        color: #a0ffb0;
     }
 `;
 document.head.appendChild(style);
