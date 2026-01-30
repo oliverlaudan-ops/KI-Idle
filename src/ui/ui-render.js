@@ -10,6 +10,7 @@ export function renderAll(gameState) {
     renderStatsBar(gameState);
     renderBuildings(gameState);
     renderModels(gameState);
+    renderTrainingStatus(gameState);
     renderResearch(gameState);
     renderAchievements(gameState);
     renderStatistics(gameState);
@@ -226,6 +227,75 @@ function canTrainModel(model, gameState) {
     return true;
 }
 
+// New: Render Training Status with Animations
+export function renderTrainingStatus(gameState) {
+    const noTrainingMsg = document.getElementById('no-training-msg');
+    const activeTraining = document.getElementById('active-training');
+    const stopButton = document.getElementById('btn-stop-training');
+    
+    if (!gameState.currentTraining) {
+        // Show idle state
+        noTrainingMsg.style.display = 'block';
+        activeTraining.style.display = 'none';
+        stopButton.style.display = 'none';
+        return;
+    }
+    
+    // Show active training
+    noTrainingMsg.style.display = 'none';
+    activeTraining.style.display = 'block';
+    stopButton.style.display = 'block';
+    
+    const model = gameState.models[gameState.currentTraining];
+    const modelDef = models[gameState.currentTraining];
+    const training = gameState.training;
+    
+    // Update model info
+    document.getElementById('training-icon').textContent = modelDef.icon || '🧠';
+    document.getElementById('training-model-name').textContent = modelDef.name;
+    document.getElementById('training-model-category').textContent = model.category;
+    
+    // Calculate progress
+    const progress = Math.min((training.elapsedTime / training.duration) * 100, 100);
+    const remainingTime = Math.max(0, training.duration - training.elapsedTime);
+    
+    // Update progress bar
+    const progressFill = document.getElementById('training-progress-fill');
+    const progressText = document.getElementById('training-progress-text');
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `${progress.toFixed(1)}%`;
+    
+    // Update time remaining
+    document.getElementById('training-time-remaining').textContent = formatTrainingTime(remainingTime);
+    
+    // Calculate training stats
+    const accuracyGain = training.accuracyPerSecond || 0;
+    const trainingSpeed = gameState.multipliers.trainingSpeed || 1.0;
+    const currentEpoch = Math.floor((training.elapsedTime / training.duration) * 100);
+    
+    // Update stats
+    document.getElementById('training-accuracy-gain').textContent = `+${formatNumber(accuracyGain, 2)}/s`;
+    document.getElementById('training-speed').textContent = `${trainingSpeed.toFixed(1)}x`;
+    document.getElementById('training-epochs').textContent = `${currentEpoch} / 100`;
+    
+    // Setup stop button handler (only once)
+    if (!stopButton.hasAttribute('data-initialized')) {
+        stopButton.setAttribute('data-initialized', 'true');
+        stopButton.addEventListener('click', () => {
+            if (window.game && confirm('Stop training? Progress will be lost.')) {
+                window.game.stopTraining();
+                showToast('Training stopped', 'warning');
+            }
+        });
+    }
+}
+
+function formatTrainingTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
 export function renderResearch(gameState) {
     const categories = {
         'optimizers': document.getElementById('research-optimizers'),
@@ -408,7 +478,7 @@ export function renderStatistics(gameState) {
     if (gameInfoTable) {
         gameInfoTable.innerHTML = `
             <tr><td>Playtime</td><td>${formatTime(playtime)}</td></tr>
-            <tr><td>Game Version</td><td>0.1-alpha</td></tr>
+            <tr><td>Game Version</td><td>0.2-alpha</td></tr>
             <tr><td>Deployments</td><td>${gameState.prestige.deployments}</td></tr>
             <tr><td>Tokens</td><td>${gameState.prestige.tokens}</td></tr>
         `;
@@ -461,4 +531,27 @@ export function showToast(message, type = 'success') {
         toast.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => toast.remove(), 300);
     }, 3000);
+}
+
+// Training Completion Animation
+export function showTrainingCompleteAnimation(modelName) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    const celebration = document.createElement('div');
+    celebration.className = 'toast success';
+    celebration.innerHTML = `
+        <div style="font-size: 1.2rem; font-weight: bold;">🎉 Training Complete!</div>
+        <div>${modelName}</div>
+    `;
+    celebration.style.background = 'linear-gradient(135deg, var(--accent-success), var(--accent-primary))';
+    celebration.style.color = 'white';
+    celebration.style.boxShadow = '0 0 30px rgba(0, 255, 136, 0.8)';
+    
+    container.appendChild(celebration);
+    
+    setTimeout(() => {
+        celebration.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => celebration.remove(), 300);
+    }, 5000);
 }
