@@ -20,6 +20,9 @@ export class GameState {
         this.currentTraining = null;
         this.trainingProgress = 0;
         
+        // Enhanced training state for UI animations
+        this.training = null; // Will be set when training starts
+        
         // Achievement bonuses storage
         this.achievementBonuses = {
             dataGeneration: 1,
@@ -33,6 +36,12 @@ export class GameState {
             deploymentTokens: 1,
             permanentAccuracy: 1,
             researchPoints: 1
+        };
+        
+        // Multipliers object for UI
+        this.multipliers = {
+            trainingSpeed: 1.0,
+            global: 1.0
         };
         
         this.stats = {
@@ -192,6 +201,10 @@ export class GameState {
         globalMultiplier *= this.achievementBonuses.allProduction;
         globalMultiplier *= this.achievementBonuses.allResources;
         
+        // Store multipliers for UI
+        this.multipliers.global = globalMultiplier;
+        this.multipliers.trainingSpeed = this.achievementBonuses.trainingSpeed;
+        
         // Apply global multiplier to all resources
         for (const resource of Object.values(this.resources)) {
             resource.perSecond *= globalMultiplier;
@@ -225,6 +238,16 @@ export class GameState {
         
         this.currentTraining = modelId;
         this.trainingProgress = 0;
+        
+        // Initialize training state for UI
+        this.training = {
+            modelId: modelId,
+            elapsedTime: 0,
+            duration: model.trainingTime,
+            accuracyPerSecond: model.production.accuracy || 0,
+            startTime: Date.now()
+        };
+        
         this.recalculateProduction();
         
         return true;
@@ -233,6 +256,7 @@ export class GameState {
     stopTraining() {
         this.currentTraining = null;
         this.trainingProgress = 0;
+        this.training = null;
         this.recalculateProduction();
     }
     
@@ -337,10 +361,12 @@ export class GameState {
         }
         
         // Update training progress
-        if (this.currentTraining) {
+        if (this.currentTraining && this.training) {
             const model = this.models[this.currentTraining];
             const trainingSpeedBonus = this.achievementBonuses.trainingSpeed;
+            
             this.trainingProgress += deltaTime * trainingSpeedBonus;
+            this.training.elapsedTime += deltaTime * trainingSpeedBonus;
             
             if (this.trainingProgress >= model.trainingTime) {
                 this.completeTraining();
@@ -391,6 +417,7 @@ export class GameState {
             prestige: this.prestige,
             currentTraining: this.currentTraining,
             trainingProgress: this.trainingProgress,
+            training: this.training,
             stats: this.stats,
             settings: this.settings
         };
@@ -410,6 +437,7 @@ export class GameState {
             this.prestige = saveData.prestige;
             this.currentTraining = saveData.currentTraining;
             this.trainingProgress = saveData.trainingProgress;
+            this.training = saveData.training || null;
             this.stats = saveData.stats;
             this.settings = saveData.settings;
             
