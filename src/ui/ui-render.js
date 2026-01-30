@@ -233,7 +233,13 @@ export function renderTrainingStatus(gameState) {
     const activeTraining = document.getElementById('active-training');
     const stopButton = document.getElementById('btn-stop-training');
     
-    if (!gameState.currentTraining) {
+    // Safety check for elements
+    if (!noTrainingMsg || !activeTraining || !stopButton) {
+        return;
+    }
+    
+    // Check if training is active AND training state exists
+    if (!gameState.currentTraining || !gameState.training) {
         // Show idle state
         noTrainingMsg.style.display = 'block';
         activeTraining.style.display = 'none';
@@ -250,10 +256,19 @@ export function renderTrainingStatus(gameState) {
     const modelDef = models[gameState.currentTraining];
     const training = gameState.training;
     
+    // Safety checks
+    if (!model || !modelDef || !training) {
+        return;
+    }
+    
     // Update model info
-    document.getElementById('training-icon').textContent = modelDef.icon || '🧠';
-    document.getElementById('training-model-name').textContent = modelDef.name;
-    document.getElementById('training-model-category').textContent = model.category;
+    const trainingIcon = document.getElementById('training-icon');
+    const trainingModelName = document.getElementById('training-model-name');
+    const trainingModelCategory = document.getElementById('training-model-category');
+    
+    if (trainingIcon) trainingIcon.textContent = modelDef.icon || '🧠';
+    if (trainingModelName) trainingModelName.textContent = modelDef.name;
+    if (trainingModelCategory) trainingModelCategory.textContent = model.category;
     
     // Calculate progress
     const progress = Math.min((training.elapsedTime / training.duration) * 100, 100);
@@ -262,21 +277,26 @@ export function renderTrainingStatus(gameState) {
     // Update progress bar
     const progressFill = document.getElementById('training-progress-fill');
     const progressText = document.getElementById('training-progress-text');
-    progressFill.style.width = `${progress}%`;
-    progressText.textContent = `${progress.toFixed(1)}%`;
+    if (progressFill) progressFill.style.width = `${progress}%`;
+    if (progressText) progressText.textContent = `${progress.toFixed(1)}%`;
     
     // Update time remaining
-    document.getElementById('training-time-remaining').textContent = formatTrainingTime(remainingTime);
+    const timeRemaining = document.getElementById('training-time-remaining');
+    if (timeRemaining) timeRemaining.textContent = formatTrainingTime(remainingTime);
     
     // Calculate training stats
     const accuracyGain = training.accuracyPerSecond || 0;
-    const trainingSpeed = gameState.multipliers.trainingSpeed || 1.0;
+    const trainingSpeed = gameState.multipliers?.trainingSpeed || 1.0;
     const currentEpoch = Math.floor((training.elapsedTime / training.duration) * 100);
     
     // Update stats
-    document.getElementById('training-accuracy-gain').textContent = `+${formatNumber(accuracyGain, 2)}/s`;
-    document.getElementById('training-speed').textContent = `${trainingSpeed.toFixed(1)}x`;
-    document.getElementById('training-epochs').textContent = `${currentEpoch} / 100`;
+    const accuracyGainEl = document.getElementById('training-accuracy-gain');
+    const trainingSpeedEl = document.getElementById('training-speed');
+    const trainingEpochsEl = document.getElementById('training-epochs');
+    
+    if (accuracyGainEl) accuracyGainEl.textContent = `+${formatNumber(accuracyGain, 2)}/s`;
+    if (trainingSpeedEl) trainingSpeedEl.textContent = `${trainingSpeed.toFixed(1)}x`;
+    if (trainingEpochsEl) trainingEpochsEl.textContent = `${currentEpoch} / 100`;
     
     // Setup stop button handler (only once)
     if (!stopButton.hasAttribute('data-initialized')) {
