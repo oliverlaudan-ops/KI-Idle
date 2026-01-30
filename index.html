@@ -97,10 +97,57 @@
                     <h2>Model Training</h2>
                     <p class="tab-description">Train neural networks on various machine learning tasks</p>
                 </div>
+                
+                <!-- Enhanced Training Status -->
                 <div class="training-status" id="current-training">
-                    <h3>Current Training</h3>
-                    <div class="no-training">No model currently training. Select a task below to begin.</div>
+                    <div class="training-status-header">
+                        <h3>Current Training</h3>
+                        <button class="btn-stop-training" id="btn-stop-training" style="display: none;">Stop Training</button>
+                    </div>
+                    <div class="no-training" id="no-training-msg">
+                        <div class="idle-animation">⏸️</div>
+                        <p>No model currently training</p>
+                        <p class="hint">Select a task below to begin training</p>
+                    </div>
+                    <div class="active-training" id="active-training" style="display: none;">
+                        <div class="training-header">
+                            <div class="training-model-info">
+                                <span class="training-icon" id="training-icon">🧠</span>
+                                <div class="training-details">
+                                    <div class="training-model-name" id="training-model-name">Model Name</div>
+                                    <div class="training-model-category" id="training-model-category">Category</div>
+                                </div>
+                            </div>
+                            <div class="training-time-info">
+                                <div class="training-time-remaining" id="training-time-remaining">--:--</div>
+                                <div class="training-time-label">remaining</div>
+                            </div>
+                        </div>
+                        
+                        <div class="training-progress-container">
+                            <div class="training-progress-bar">
+                                <div class="training-progress-fill" id="training-progress-fill"></div>
+                                <div class="training-progress-text" id="training-progress-text">0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="training-stats">
+                            <div class="training-stat">
+                                <span class="training-stat-label">🎯 Accuracy Gain:</span>
+                                <span class="training-stat-value" id="training-accuracy-gain">+0.0/s</span>
+                            </div>
+                            <div class="training-stat">
+                                <span class="training-stat-label">⚡ Training Speed:</span>
+                                <span class="training-stat-value" id="training-speed">1.0x</span>
+                            </div>
+                            <div class="training-stat">
+                                <span class="training-stat-label">📊 Epochs:</span>
+                                <span class="training-stat-value" id="training-epochs">0 / 100</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="model-categories">
                     <div class="model-category">
                         <h3>Classification Tasks</h3>
@@ -238,7 +285,7 @@
                 <button class="btn-danger" id="btn-reset">🔄 Reset Game</button>
             </div>
             <div class="footer-info">
-                <span>AI-Idle v0.1-alpha</span>
+                <span>AI-Idle v0.2-alpha</span>
                 <span>|</span>
                 <span>Last save: <span id="last-save-time">Never</span></span>
                 <span>|</span>
